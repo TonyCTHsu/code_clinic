@@ -57,6 +57,13 @@ class Board
     end
   end
 
+  def safe_position?(column, row)
+    return false unless safe_column?(column)
+    return false unless safe_row?(row)
+    return false unless safe_diagonal?(column, row)
+    return true
+  end
+
   def display
     puts
     puts @@horizontal_edge * (columns + 2)
@@ -81,4 +88,17 @@ class Board
       find_queen(column, row) || @@blank
     end
 
+    def safe_column?(column)
+      queens.none? {|q| q.column == column}
+    end
+
+    def safe_row?(row)
+      queens.none? {|q| q.row == row}
+    end
+
+    def safe_diagonal?(column, row)
+      queens.none? do |q|
+        (q.column - column).abs == (q.row - row).abs
+      end
+    end
 end
