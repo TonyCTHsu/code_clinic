@@ -2,6 +2,10 @@ class Board
 
   DEFAULT_SIZE = 8
 
+  @@horizontal_edge = '='
+  @@vertical_edge = '|'
+  @@blank  = '-'
+
   attr_accessor :queens
 
   def initialize(options={})
@@ -53,11 +57,28 @@ class Board
     end
   end
 
+  def display
+    puts
+    puts @@horizontal_edge * (columns + 2)
+    rows.times do |row|
+      print @@vertical_edge
+      columns.times do |column|
+        print contents_at(column, row)
+      end
+      puts @@vertical_edge
+    end
+    puts @@horizontal_edge * (columns + 2)
+    puts
+  end
 
   private
 
     def find_queen(column, row)
       @queens.detect {|q| q.location?(column, row)}
+    end
+
+    def contents_at(column, row)
+      find_queen(column, row) || @@blank
     end
 
 end
